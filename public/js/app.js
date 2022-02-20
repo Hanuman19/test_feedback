@@ -5941,6 +5941,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5985,6 +5988,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         id: 1,
         name: 'Файл',
         slug: 'file'
+      }, {
+        id: 2,
+        name: 'Email',
+        slug: 'email'
       }]
     };
   },
@@ -6031,6 +6038,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 data = _yield$axios$post.data;
 
                 if (data.status == true) {
+                  console.log(data);
                   _this.textSnack = 'Данные внесены успешно';
                   _this.typeSnack = 'success';
                   _this.snackKey += 1;
@@ -6043,6 +6051,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 if (data.message) {
+                  _this.error = [];
+
                   if (data.message.name) {
                     data.message.name.forEach(function (element) {
                       return _this.error.push(element);
@@ -6076,7 +6086,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 11:
                 _context.prev = 11;
                 _context.t0 = _context["catch"](2);
-                console.log(_context.t0.response);
+                _this.error = [];
 
                 _this.error.push(_context.t0.response.data.message);
 

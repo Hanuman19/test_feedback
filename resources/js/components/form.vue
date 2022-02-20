@@ -16,7 +16,8 @@
                             placeholder="Введите свое имя"
                             :counter="10"
                             :rules="nameRules"
-                            required>
+                            required
+                        >
                         </v-text-field>
                     </v-col>
                     <v-col cols="12">
@@ -27,7 +28,9 @@
                             placeholder="Введите номер телефона"
                             :counter="11"
                             :rules="phoneRules"
-                            required></v-text-field>
+                            required>
+
+                        </v-text-field>
                     </v-col>
                     <v-col cols="12">
                         <v-textarea
@@ -36,8 +39,8 @@
                             name="input-7-4"
                             label="Введите текст обращения"
                             :rules="textRules"
-                            required
-                        ></v-textarea>
+                            required>
+                        </v-textarea>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -52,8 +55,8 @@
                             solo
                             persistent-hint
                             :rules="selectedRules"
-                            required
-                        ></v-select>
+                            required>
+                        </v-select>
                     </v-col>
                     <v-col cols="6">
                         <v-btn
@@ -108,7 +111,9 @@ export default {
             typeSnack:'',
             counter: 0,
             selected: null,
-            items: [{id:0,name:'База данных', slug:'db'}, {id:1,name:'Файл',slug:'file'}]
+            items: [{id:0,name:'База данных', slug:'db'},
+                    {id:1,name:'Файл',slug:'file'},
+                    {id:2,name:'Email',slug:'email'}]
         };
     },
     computed: {
@@ -128,8 +133,6 @@ export default {
             }
         },
         async storeFeedback(){
-            // this.$refs.form.validate()
-            // console.log(!this.$refs.form.validate())
             if(this.$refs.form.validate()==true){
                 const feedback={
                     name:this.name,
@@ -140,6 +143,7 @@ export default {
                 try{
                     let {data} = await axios.post(`/api/store`, feedback)
                     if(data.status==true){
+                        console.log(data)
                         this.textSnack='Данные внесены успешно'
                         this.typeSnack='success'
                         this.snackKey+=1
@@ -150,6 +154,7 @@ export default {
 
                     }
                     if(data.message){
+                        this.error=[]
                         if(data.message.name){
                             data.message.name.forEach(element =>
                                 this.error.push(element)
@@ -173,7 +178,7 @@ export default {
                     }
 
                 }catch (e) {
-                    console.log(e.response)
+                    this.error=[]
                     this.error.push(e.response.data.message)
                     this.typeSnack='error'
                     this.snackKey+=1
